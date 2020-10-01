@@ -20,41 +20,55 @@ class ProductCardHorizontal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-      child: SizedBox(
-        width: getProportionateScreenWidth(width),
-        child: GestureDetector(
-          onTap: () => Navigator.pushNamed(
-            context,
-            DetailsScreen.routeName,
-            arguments: ProductDetailsArguments(product: product),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AspectRatio(
-                aspectRatio: 1.02,
-                child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(20)),
-                  decoration: BoxDecoration(
-                    color: kSecondaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Hero(
-                    tag: product.id.toString(),
-                    child: Image.asset(product.images[0]),
-                  ),
+      padding: EdgeInsets.only(left: getProportionateScreenWidth(10)),
+      // child: SizedBox(
+      //   width: getProportionateScreenWidth(width),
+      child: GestureDetector(
+        onTap: () => Navigator.pushNamed(
+          context,
+          DetailsScreen.routeName,
+          arguments: ProductDetailsArguments(product: product),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            // AspectRatio(
+            //   aspectRatio: 3 / 2,
+            //   child: Container(
+            //     padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+            //     decoration: BoxDecoration(
+            //       color: kSecondaryColor.withOpacity(0.1),
+            //       borderRadius: BorderRadius.circular(15),
+            //     ),
+            //     child: Hero(
+            //       tag: product.id.toString(),
+            //       child: Image.asset(product.images[0]),
+            //     ),
+            //   ),
+            // ),
+
+            Container(
+              width: 100,
+              height: 100,
+              child: ClipRRect(
+                borderRadius: new BorderRadius.circular(24.0),
+                child: Image.asset(
+                  product.images[0],
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topRight,
                 ),
               ),
-              const SizedBox(height: 10),
-              Text(
-                product.title,
-                style: TextStyle(color: Colors.black),
-                maxLines: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    product.title,
+                    style: TextStyle(color: Colors.black),
+                    maxLines: 2,
+                  ),
                   Text(
                     "\$${product.price}",
                     style: TextStyle(
@@ -85,11 +99,72 @@ class ProductCardHorizontal extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
-            ],
-          ),
+              ),
+            )
+            // const SizedBox(height: 10),
+          ],
         ),
       ),
+      // child: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      // AspectRatio(
+      //   aspectRatio: 1.02,
+      //   child: Container(
+      //     padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+      //     decoration: BoxDecoration(
+      //       color: kSecondaryColor.withOpacity(0.1),
+      //       borderRadius: BorderRadius.circular(15),
+      //     ),
+      //     child: Hero(
+      //       tag: product.id.toString(),
+      //       child: Image.asset(product.images[0]),
+      //     ),
+      //   ),
+      // ),
+      // const SizedBox(height: 10),
+      // Text(
+      //   product.title,
+      //   style: TextStyle(color: Colors.black),
+      //   maxLines: 2,
+      // ),
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   children: [
+      //     Text(
+      //       "\$${product.price}",
+      //       style: TextStyle(
+      //         fontSize: getProportionateScreenWidth(18),
+      //         fontWeight: FontWeight.w600,
+      //         color: kPrimaryColor,
+      //       ),
+      //     ),
+      //     InkWell(
+      //       borderRadius: BorderRadius.circular(50),
+      //       onTap: () {},
+      //       child: Container(
+      //         padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+      //         height: getProportionateScreenWidth(28),
+      //         width: getProportionateScreenWidth(28),
+      //         decoration: BoxDecoration(
+      //           color: product.isFavourite
+      //               ? kPrimaryColor.withOpacity(0.15)
+      //               : kSecondaryColor.withOpacity(0.1),
+      //           shape: BoxShape.circle,
+      //         ),
+      //         child: SvgPicture.asset(
+      //           "assets/icons/Heart Icon_2.svg",
+      //           color: product.isFavourite
+      //               ? Color(0xFFFF4848)
+      //               : Color(0xFFDBDEE4),
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // )
+      // ],
+      // ),
+      // ),
     );
   }
 }
