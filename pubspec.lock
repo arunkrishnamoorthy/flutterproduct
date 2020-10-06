@@ -44,10 +44,10 @@ packages:
     source: hosted
     version: "1.0.1"
   collection:
-    dependency: transitive
+    dependency: transitive 
     description:
       name: collection
-      url: "https://pub.dartlang.org"
+      url: "https://pub.dartlang.org" 
     source: hosted
     version: "1.14.13"
   convert:
