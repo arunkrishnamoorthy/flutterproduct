@@ -4,6 +4,7 @@ import 'package:shop_app/screens/create/create_screen.dart';
 import 'components/body.dart';
 import 'package:foldable_sidebar/foldable_sidebar.dart';
 import 'package:shop_app/components/custom_drawer.dart';
+import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
@@ -14,6 +15,47 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 // class HomeScreen extends StatelessWidget {
   FSBStatus drawerStatus;
+
+  Future<void> showSortOptions(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sort By...'),
+            content: SingleChildScrollView(
+              child: ListBody(children: <Widget>[
+                GestureDetector(
+                    child: Text("Favorite"),
+                    onTap: () {
+                      debugPrint("Sort by Favorite");
+                      Navigator.of(context).pop();
+                      Toast.show("Sort By Favorite Executed", context,
+                          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                    }),
+                Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                    child: Text("Product Type"),
+                    onTap: () {
+                      debugPrint("Sort by Product Type");
+                      Navigator.of(context).pop();
+                      Toast.show("Sort By Product Type Executed", context,
+                          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                    }),
+                Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                    child: Text("Availability"),
+                    onTap: () {
+                      debugPrint("Sort by Availability");
+                      Navigator.of(context).pop();
+                      Toast.show("Sort By Availability Executed", context,
+                          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                    }),
+              ]),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,20 +81,21 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 50,
           animationDuration: Duration(microseconds: 200),
           animationCurve: Curves.bounceInOut,
+          index: 1,
           items: <Widget>[
-            Icon(Icons.list, size: 30),
-            // Icon(Icons.list, size: 30),
-            // Icon(Icons.compare_arrows, size: 30),
             Icon(Icons.compare_arrows, size: 30),
-            // Icon(Icons.verified_user, size: 30),
+            Icon(Icons.list, size: 30),
             Icon(Icons.add, size: 30),
           ],
           onTap: (index) {
             //Handle button tap
             // debugPrint("Current Index is $index");
+            debugPrint("Current Index is $index");
             if (index == 2) {
-              debugPrint("Current Index is $index");
               Navigator.pushNamed(context, CreateScreen.routeName);
+            }
+            if (index == 0) {
+              showSortOptions(context);
             }
           },
         ),

@@ -38,24 +38,7 @@ class Body extends StatelessWidget {
             ],
           ),
         ),
-        // TopRoundedContainer(
-        //   color: Colors.white,
-        //   child: Padding(
-        //     padding: EdgeInsets.only(
-        //         // left: SizeConfig.screenWidth * 0.15,
-        //         // right: SizeConfig.screenWidth * 0.15,
-        //         // bottom: getProportionateScreenWidth(40),
-        //         // top: getProportionateScreenWidth(15),
-        //         ),
-        //     child: DefaultButton(
-        //       text: "Add To Cart",
-        //       press: () {
-        //         debugPrint("Console log, Add to Cart clicked, $product");
-        //       },
-        //     ),
-        //   ),
-        // ),
-        AddToCart(product: product)
+        // AddToCart(product: product)
       ],
     );
   }

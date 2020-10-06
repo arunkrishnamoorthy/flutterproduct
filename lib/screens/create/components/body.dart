@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../size_config.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -73,6 +74,26 @@ class _BodyState extends State<Body> {
     Navigator.of(context).pop();
   }
 
+  Future _openGalleryOCR(BuildContext context) async {
+    // final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    this.setState(() {
+      imageFile = image; //File(pickedFile.path);
+    });
+    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(image);
+    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
+    VisionText readText = await recognizeText.processImage(ourImage);
+
+    for (TextBlock block in readText.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement word in line.elements) {
+          print(word.text);
+        }
+      }
+    }
+    Navigator.of(context).pop();
+  }
+
   _openCamera(BuildContext context) async {
     // final pickedFile = await picker.getImage(source: ImageSource.camera);
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -80,6 +101,27 @@ class _BodyState extends State<Body> {
       imageFile = image;
       //File(pickedFile.path);
     });
+    Navigator.of(context).pop();
+  }
+
+  _openCameraOCR(BuildContext context) async {
+    // final pickedFile = await picker.getImage(source: ImageSource.camera);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      imageFile = image;
+      //File(pickedFile.path);
+    });
+    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(image);
+    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
+    VisionText readText = await recognizeText.processImage(ourImage);
+
+    for (TextBlock block in readText.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement word in line.elements) {
+          print(word.text);
+        }
+      }
+    }
     Navigator.of(context).pop();
   }
 
@@ -101,6 +143,31 @@ class _BodyState extends State<Body> {
                     child: Text("Camera"),
                     onTap: () {
                       _openCamera(context);
+                    }),
+              ]),
+            ),
+          );
+        });
+  }
+
+  Future<void> _showImageDialogOCR(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Choose Image from..'),
+            content: SingleChildScrollView(
+              child: ListBody(children: <Widget>[
+                GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () {
+                      _openGalleryOCR(context);
+                    }),
+                Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () {
+                      _openCameraOCR(context);
                     }),
               ]),
             ),
@@ -175,9 +242,17 @@ class _BodyState extends State<Body> {
                           SizedBox(height: SizeConfig.screenHeight * 0.02),
                           RaisedButton(
                             child: new Text(
-                              "Scan",
+                              "Scan Barcode",
                             ),
                             onPressed: _scanQR,
+                          ),
+                          RaisedButton(
+                            child: new Text(
+                              "Scan Text",
+                            ),
+                            onPressed: () {
+                              _showImageDialogOCR(context);
+                            },
                           )
                         ],
                       )),
