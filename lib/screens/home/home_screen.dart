@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:shop_app/screens/create/create_screen.dart';
+import 'package:shop_app/screens/createconf/createconf_screen.dart';
 import 'components/body.dart';
 import 'package:foldable_sidebar/foldable_sidebar.dart';
 import 'package:shop_app/components/custom_drawer.dart';
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // debugPrint("Current Index is $index");
             debugPrint("Current Index is $index");
             if (index == 2) {
-              Navigator.pushNamed(context, CreateScreen.routeName);
+              Navigator.pushNamed(context, CreateConfirm.routeName);
             }
             if (index == 0) {
               showSortOptions(context);

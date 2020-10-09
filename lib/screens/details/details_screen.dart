@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/comments/comments_screen.dart';
+import 'package:shop_app/screens/review/review_screen.dart';
 
 import '../../models/Product.dart';
 import 'components/body.dart';
@@ -72,7 +73,7 @@ class DetailsScreen extends StatelessWidget {
             showAlertDialog(context);
           }
           if (index == 2) {
-            Navigator.pushNamed(context, CommentScreen.routeName);
+            Navigator.pushNamed(context, ReviewScreen.routeName);
           }
         },
       ),

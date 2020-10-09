@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shop_app/models/Cart.dart';
@@ -25,6 +24,27 @@ class _BodyState extends State<Body> {
   String _currentAddress;
   final picker = ImagePicker();
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+  final myController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    myController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this._getCurrentLocation();
+    myController.addListener(_printLatestValue);
+  }
+
+  _printLatestValue() {
+    myController.text = "Default Value";
+  }
 
   _getCurrentLocation() {
     debugPrint("Get Current Location Triggered");
@@ -57,12 +77,6 @@ class _BodyState extends State<Body> {
     } catch (e) {
       print(e);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    this._getCurrentLocation();
   }
 
   Future _openGallery(BuildContext context) async {
@@ -180,6 +194,7 @@ class _BodyState extends State<Body> {
       String qrResult = await BarcodeScanner.scan();
       setState(() {
         result = qrResult;
+        print(result);
       });
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {
@@ -226,18 +241,20 @@ class _BodyState extends State<Body> {
                           child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          TextFormField(
-                            initialValue: result,
+                          Text("Barcode Value: $result"),
+                          TextField(
+                            // initialValue: result,
                             decoration: const InputDecoration(
                               // icon: Icon(Icons.person),
+                              border: InputBorder.none,
                               hintText: 'Enter the Product Number / Scan',
                               labelText: 'Product Number *',
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter the product number';
-                              }
-                            },
+                            // validator: (value) {
+                            //   if (value.isEmpty) {
+                            //     return 'Please enter the product number';
+                            //   }
+                            // },
                           ),
                           SizedBox(height: SizeConfig.screenHeight * 0.02),
                           RaisedButton(
@@ -309,7 +326,8 @@ class _BodyState extends State<Body> {
                               setState(() => _product.finishedProduct = val)),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
-                        initialValue: _currentAddress,
+                        // initialValue: _currentAddress,
+                        controller: myController,
                         decoration: const InputDecoration(
                           // icon: Icon(Icons.person),
                           hintText: 'Enter the Location',
