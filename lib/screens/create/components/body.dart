@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../size_config.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:shop_app/components/custom_surfix_icon.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -26,12 +27,14 @@ class _BodyState extends State<Body> {
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
   final myController = TextEditingController();
+  final myProductNumber = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     myController.dispose();
+    myProductNumber.dispose();
     super.dispose();
   }
 
@@ -40,10 +43,17 @@ class _BodyState extends State<Body> {
     super.initState();
     this._getCurrentLocation();
     myController.addListener(_printLatestValue);
+    myProductNumber.addListener(_productNumber);
+  }
+
+  _productNumber() {
+    // myProductNumber.value = TextEditingValue(text: _currentAddress);
   }
 
   _printLatestValue() {
-    myController.text = "Default Value";
+    // print("Print Latest Value");
+    // // myController.text = "Default Value";
+    // myController.value = TextEditingValue(text: _currentAddress);
   }
 
   _getCurrentLocation() {
@@ -74,6 +84,7 @@ class _BodyState extends State<Body> {
             "${place.locality}, ${place.postalCode}, ${place.country}";
         debugPrint("Current Address $_currentAddress");
       });
+      myController.value = TextEditingValue(text: _currentAddress);
     } catch (e) {
       print(e);
     }
@@ -194,7 +205,8 @@ class _BodyState extends State<Body> {
       String qrResult = await BarcodeScanner.scan();
       setState(() {
         result = qrResult;
-        print(result);
+        myProductNumber.value = TextEditingValue(text: qrResult);
+        print("Scan Result $result");
       });
     } on PlatformException catch (ex) {
       if (ex.code == BarcodeScanner.CameraAccessDenied) {
@@ -244,6 +256,7 @@ class _BodyState extends State<Body> {
                           Text("Barcode Value: $result"),
                           TextField(
                             // initialValue: result,
+                            controller: myProductNumber,
                             decoration: const InputDecoration(
                               // icon: Icon(Icons.person),
                               border: InputBorder.none,
@@ -279,6 +292,9 @@ class _BodyState extends State<Body> {
                           // icon: Icon(Icons.person),
                           hintText: 'Enter the Product Description',
                           labelText: 'Product Description *',
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          suffixIcon: CustomSurffixIcon(
+                              svgIcon: "assets/icons/Mail.svg"),
                         ),
                         // validator: (value) {
                         //   if (value.isEmpty) {
@@ -327,12 +343,17 @@ class _BodyState extends State<Body> {
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
                         // initialValue: _currentAddress,
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.w300),
                         controller: myController,
                         decoration: const InputDecoration(
-                          // icon: Icon(Icons.person),
-                          hintText: 'Enter the Location',
-                          labelText: 'Location *',
-                        ),
+                            // icon: Icon(Icons.person),
+                            // hintText: 'Enter the Location',
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            suffixIcon: CustomSurffixIcon(
+                                svgIcon: "assets/icons/Mail.svg"),
+                            labelText: 'Location *',
+                            prefixIcon: Icon(Icons.add_location)),
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter the Location';
