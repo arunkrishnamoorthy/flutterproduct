@@ -6,6 +6,9 @@ import 'components/body.dart';
 import 'package:foldable_sidebar/foldable_sidebar.dart';
 import 'package:shop_app/components/custom_drawer.dart';
 import 'package:toast/toast.dart';
+import '../../constants.dart';
+import '../../size_config.dart';
+import 'package:shop_app/screens/home/components/section_title_only.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
@@ -20,13 +23,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> showSortOptions(BuildContext context) {
     return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Sort By...'),
+            title: SectionTitleOnly(title: "Sort By", press: () {}),
             content: SingleChildScrollView(
               child: ListBody(children: <Widget>[
                 GestureDetector(
-                    child: Text("Favorite"),
+                    child: Text(
+                      "Favorite",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(18),
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     onTap: () {
                       debugPrint("Sort by Favorite");
                       Navigator.of(context).pop();
@@ -35,7 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     }),
                 Padding(padding: EdgeInsets.all(8.0)),
                 GestureDetector(
-                    child: Text("Product Type"),
+                    child: Text("Product Type",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(18),
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        )),
                     onTap: () {
                       debugPrint("Sort by Product Type");
                       Navigator.of(context).pop();
@@ -44,7 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     }),
                 Padding(padding: EdgeInsets.all(8.0)),
                 GestureDetector(
-                    child: Text("Availability"),
+                    child: Text("Availability",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(18),
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                        )),
                     onTap: () {
                       debugPrint("Sort by Availability");
                       Navigator.of(context).pop();
@@ -53,6 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     }),
               ]),
             ),
+            actions: [
+              new FlatButton(
+                color: kPrimaryColor,
+                textColor: Colors.white,
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           );
         });
   }
@@ -60,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Products App'), actions: <Widget>[
+        appBar: AppBar(title: Text('Products(20)'), actions: <Widget>[
           // new IconButton(icon: new Icon(Icons.search), onPressed: () {}),
           new IconButton(icon: new Icon(Icons.more_vert), onPressed: () {})
         ]),
@@ -78,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //   status: drawerStatus,
         // ),
         bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: kPrimaryColor,
           height: 50,
           animationDuration: Duration(microseconds: 200),
           animationCurve: Curves.bounceInOut,

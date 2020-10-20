@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import 'components/body.dart';
 
-class CommentScreen extends StatelessWidget {
-  static String routeName = "/comment";
+class ProfileScreen extends StatelessWidget {
+  static String routeName = "/profile";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      // appBar: buildAppBar(context),
       body: Body(),
-      floatingActionButton: FloatingActionButton(
-        // onPressed: _incrementCounter,
-        tooltip: 'Chat',
-        backgroundColor: kPrimaryColor,
-        child: Icon(Icons.chat_bubble),
-      ),
       // bottomNavigationBar: CheckoutCard(),
     );
   }
@@ -26,7 +19,7 @@ class CommentScreen extends StatelessWidget {
       title: Column(
         children: [
           Text(
-            "FAQ's",
+            "Profile",
             style: TextStyle(color: Colors.black),
           )
         ],

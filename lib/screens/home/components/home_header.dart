@@ -6,6 +6,7 @@ import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import '../../../constants.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({
@@ -78,7 +79,27 @@ class _HomeHeaderState extends State<HomeHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SearchField(),
+          Container(
+            width: SizeConfig.screenWidth * 0.6,
+            decoration: BoxDecoration(
+              color: kSecondaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: TextField(
+              controller: myProductNumber,
+              onChanged: (value) => print(value),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(20),
+                      vertical: getProportionateScreenWidth(9)),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  hintText: "Search product",
+                  prefixIcon: Icon(Icons.search)),
+            ),
+          ),
+          // SearchField(),
           IconBtnWithCounter(
               svgSrc: "assets/icons/scan.svg",
               press: () {
@@ -86,7 +107,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                 // => Navigator.pushNamed(context, CartScreen.routeName),
               }),
           IconBtnWithCounter(
-            svgSrc: "assets/icons/Bell.svg",
+            svgSrc: "assets/icons/mic.svg",
             numOfitem: 3,
             press: () {},
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/comments/comments_screen.dart';
 import 'package:shop_app/screens/review/review_screen.dart';
-
+import '../../constants.dart';
 import '../../models/Product.dart';
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
@@ -56,7 +56,7 @@ class DetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(rating: agrs.product.rating),
       body: Body(product: agrs.product),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: kPrimaryColor,
         height: 50,
         animationDuration: Duration(microseconds: 200),
         animationCurve: Curves.bounceInOut,

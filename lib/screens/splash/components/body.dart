@@ -15,12 +15,15 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
-    {"text": "Nevell Product Finder", "image": "assets/images/splash_1.png"},
     {
-      "text": "Browse through the product catalog",
+      "text": "Browse through Product Catalog",
+      "image": "assets/images/splash_1.png"
+    },
+    {
+      "text": "Search and Request for New Products",
       "image": "assets/images/splash_2.png"
     },
-    {"text": "Create New Products", "image": "assets/images/splash_3.png"},
+    {"text": "Review the Products", "image": "assets/images/splash_3.png"},
   ];
   @override
   Widget build(BuildContext context) {

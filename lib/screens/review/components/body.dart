@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/home/components/section_title_only.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -6,6 +7,50 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  Future<void> showCommentBox(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: SectionTitleOnly(title: "Add Comments", press: () {}),
+            content: SingleChildScrollView(
+                child: TextField(
+              // initialValue: result,
+              // maxLength: 10,
+              // controller: myProductNumber,
+              // style:
+              maxLines: 7,
+              decoration: const InputDecoration(
+                  // disabledBorder: true,
+                  // icon: Icon(Icons.send),
+                  // hintText: 'Add Comments',
+                  // labelText: 'Number *',
+                  ),
+              // validator: (value) {
+              //   if (value.isEmpty) {
+              //     return 'Please enter the product number';
+              //   }
+              // },
+            )),
+            actions: [
+              new FlatButton(
+                child: Text("Save"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -338,7 +383,9 @@ class _BodyState extends State<Body> {
                         Padding(
                           padding: EdgeInsets.only(top: 4.0, right: 10.0),
                           child: FlatButton.icon(
-                              onPressed: () {},
+                              onPressed: () {
+                                showCommentBox(context);
+                              },
                               icon: Icon(Icons.reply, color: Colors.blueAccent),
                               label: Text('Reply',
                                   style: TextStyle(

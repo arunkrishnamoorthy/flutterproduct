@@ -1,7 +1,12 @@
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/data/data.dart';
 import 'package:shop_app/models/speciality.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/screens/create/create_screen.dart';
+import 'package:shop_app/screens/home/components/home_header.dart';
+import 'package:shop_app/screens/home/components/categories.dart';
+import 'package:shop_app/screens/home/components/products_all.dart';
+import 'package:shop_app/screens/home/components/section_title_only.dart';
 
 String selectedCategorie = "Writing";
 
@@ -37,6 +42,7 @@ class _CreateConfirmState extends State<CreateConfirm> {
         onPressed: () {
           Navigator.pushNamed(context, CreateScreen.routeName);
         },
+        backgroundColor: kPrimaryColor,
         tooltip: 'Chat',
         child: Icon(Icons.add),
       ),
@@ -45,7 +51,7 @@ class _CreateConfirmState extends State<CreateConfirm> {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+          padding: EdgeInsets.only(left: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -60,64 +66,74 @@ class _CreateConfirmState extends State<CreateConfirm> {
                     fontWeight: FontWeight.w600),
               ),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Color(0xffEFEFEF),
-                    borderRadius: BorderRadius.circular(14)),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.search),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Search",
-                      style: TextStyle(color: Colors.grey, fontSize: 19),
-                    )
-                  ],
-                ),
-              ),
+              HomeHeader(),
+              Categories(),
+              // Padding(
+              // padding: EdgeInsets.symmetric(
+              //     horizontal: 10
+              // child:
+              SectionTitleOnly(title: "Products Subscribed", press: () {}),
+              // ),
+              AllProducts(),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 24),
+              //   height: 50,
+              //   decoration: BoxDecoration(
+              //       color: Color(0xffEFEFEF),
+              //       borderRadius: BorderRadius.circular(14)),
+              //   child: HomeHeader(),
+              // Row(
+              //   children: <Widget>[
+              //     Icon(Icons.search),
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //     Text(
+              //       "Search",
+              //       style: TextStyle(color: Colors.grey, fontSize: 19),
+              //     )
+              //   ],
+              // ),
+              // ),
               SizedBox(
                 height: 30,
               ),
-              Text(
-                "Select a Product Category",
-                style: TextStyle(
-                    color: Colors.black87.withOpacity(0.8),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 30,
-                child: ListView.builder(
-                    itemCount: categories.length,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return CategorieTile(
-                        categorie: categories[index],
-                        isSelected: selectedCategorie == categories[index],
-                        context: this,
-                      );
-                    }),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              // Text(
+              //   "Select a Product Category",
+              //   style: TextStyle(
+              //       color: Colors.black87.withOpacity(0.8),
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w600),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   height: 30,
+              //   child: ListView.builder(
+              //       itemCount: categories.length,
+              //       shrinkWrap: true,
+              //       physics: ClampingScrollPhysics(),
+              //       scrollDirection: Axis.horizontal,
+              //       itemBuilder: (context, index) {
+              //         return CategorieTile(
+              //           categorie: categories[index],
+              //           isSelected: selectedCategorie == categories[index],
+              //           context: this,
+              //         );
+              //       }),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
 
               Text(
                 "Found 3 Products Matching the Criteria",
                 style: TextStyle(
                     color: Colors.black87.withOpacity(0.8),
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
               SizedBox(

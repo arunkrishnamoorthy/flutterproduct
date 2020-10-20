@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/ProfileScreen/profile_screen.dart';
+import 'package:shop_app/screens/comments/comments_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final Function closeDrawer;
@@ -34,7 +36,8 @@ class CustomDrawer extends StatelessWidget {
               )),
           ListTile(
             onTap: () {
-              debugPrint("Tapped Profile");
+              Navigator.pushNamed(context, ProfileScreen.routeName);
+              // debugPrint("Tapped Profile");
             },
             leading: Icon(Icons.person),
             title: Text(
@@ -45,20 +48,21 @@ class CustomDrawer extends StatelessWidget {
             height: 1,
             color: Colors.grey,
           ),
-          ListTile(
-            onTap: () {
-              debugPrint("Tapped settings");
-            },
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     debugPrint("Tapped settings");
+          //   },
+          //   leading: Icon(Icons.settings),
+          //   title: Text("Settings"),
+          // ),
           Divider(
             height: 1,
             color: Colors.grey,
           ),
           ListTile(
             onTap: () {
-              debugPrint("Tapped Payments");
+              Navigator.pushNamed(context, CommentScreen.routeName);
+              // debugPrint("Tapped Payments");
             },
             leading: Icon(Icons.payment),
             title: Text("Feedback"),

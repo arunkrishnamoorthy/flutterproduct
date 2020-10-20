@@ -55,6 +55,16 @@ class ProductCardHorizontal extends StatelessWidget {
                     }),
               ]),
             ),
+            actions: [
+              new FlatButton(
+                color: kPrimaryColor,
+                textColor: Colors.white,
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           );
         });
   }
@@ -73,7 +83,7 @@ class ProductCardHorizontal extends StatelessWidget {
           ),
         ],
         child: Padding(
-          padding: EdgeInsets.only(left: getProportionateScreenWidth(10)),
+          padding: EdgeInsets.all(10),
           child: GestureDetector(
             onTap: () => Navigator.pushNamed(
               context,
@@ -81,19 +91,37 @@ class ProductCardHorizontal extends StatelessWidget {
               arguments: ProductDetailsArguments(product: product),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                // Container(
+                //   width: 100,
+                //   height: 100,
+                //   child: ClipRRect(
+                //     borderRadius: new BorderRadius.circular(24.0),
+                //     child: Image.asset(
+                //       product.images[0],
+                //       fit: BoxFit.contain,
+                //       alignment: Alignment.topRight,
+                //     ),
+                //   ),
+                // ),
                 Container(
                   width: 100,
                   height: 100,
-                  child: ClipRRect(
-                    borderRadius: new BorderRadius.circular(24.0),
-                    child: Image.asset(
-                      product.images[0],
-                      fit: BoxFit.contain,
-                      alignment: Alignment.topRight,
+                  child: AspectRatio(
+                    aspectRatio: 1.02,
+                    child: Container(
+                      padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+                      decoration: BoxDecoration(
+                        color: kSecondaryColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Image.asset(product.images[0]),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  width: 20,
                 ),
                 Container(
                   child: Column(

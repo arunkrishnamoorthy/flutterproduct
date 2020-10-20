@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/createProduct.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -10,6 +11,8 @@ import '../../../size_config.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
+import 'package:shop_app/screens/home/components/icon_btn_with_counter.dart';
+import 'package:shop_app/screens/home/components/section_title_only.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -253,37 +256,106 @@ class _BodyState extends State<Body> {
                           child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text("Barcode Value: $result"),
-                          TextField(
-                            // initialValue: result,
-                            controller: myProductNumber,
-                            decoration: const InputDecoration(
-                              // icon: Icon(Icons.person),
-                              border: InputBorder.none,
-                              hintText: 'Enter the Product Number / Scan',
-                              labelText: 'Product Number *',
-                            ),
-                            // validator: (value) {
-                            //   if (value.isEmpty) {
-                            //     return 'Please enter the product number';
-                            //   }
-                            // },
-                          ),
                           SizedBox(height: SizeConfig.screenHeight * 0.02),
-                          RaisedButton(
-                            child: new Text(
-                              "Scan Barcode",
-                            ),
-                            onPressed: _scanQR,
+                          SectionTitleOnly(title: "Basic Info", press: () {}),
+                          SizedBox(height: SizeConfig.screenHeight * 0.02),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                  width: 200,
+                                  // height: 10,
+                                  child: TextField(
+                                    // initialValue: result,
+                                    // maxLength: 10,
+                                    controller: myProductNumber,
+                                    // style:
+                                    decoration: const InputDecoration(
+                                      // disabledBorder: true,
+                                      // icon: Icon(Icons.send),
+                                      hintText:
+                                          'Enter the Product Number / Scan',
+                                      labelText: 'Number *',
+                                    ),
+                                    // validator: (value) {
+                                    //   if (value.isEmpty) {
+                                    //     return 'Please enter the product number';
+                                    //   }
+                                    // },
+                                  )),
+                              IconBtnWithCounter(
+                                  svgSrc: "assets/icons/scan.svg",
+                                  press: () {
+                                    _scanQR();
+                                    // => Navigator.pushNamed(context, CartScreen.routeName),
+                                  }),
+                              IconBtnWithCounter(
+                                svgSrc: "assets/icons/text.svg",
+                                // numOfitem: 3,
+                                press: () {
+                                  _showImageDialogOCR(context);
+                                },
+                              ),
+                              IconBtnWithCounter(
+                                svgSrc: "assets/icons/mic.svg",
+                                // numOfitem: 3,
+                                press: () {
+                                  _showImageDialogOCR(context);
+                                },
+                              ),
+                            ],
                           ),
-                          RaisedButton(
-                            child: new Text(
-                              "Scan Text",
-                            ),
-                            onPressed: () {
-                              _showImageDialogOCR(context);
-                            },
-                          )
+                          // Text("Barcode Value: $result"),
+                          // TextField(
+                          //   // initialValue: result,
+                          //   controller: myProductNumber,
+                          //   decoration: const InputDecoration(
+                          //     // icon: Icon(Icons.person),
+                          //     border: InputBorder.none,
+                          //     hintText: 'Enter the Product Number / Scan',
+                          //     labelText: 'Product Number *',
+                          //   ),
+                          // validator: (value) {
+                          //   if (value.isEmpty) {
+                          //     return 'Please enter the product number';
+                          //   }
+                          // },
+                          // ),
+                          // SizedBox(height: SizeConfig.screenHeight * 0.02),
+                          // IconBtnWithCounter(
+                          //     svgSrc: "assets/icons/scan.svg",
+                          //     press: () {
+                          //       _scanQR();
+                          //       // => Navigator.pushNamed(context, CartScreen.routeName),
+                          //     }),
+                          // IconBtnWithCounter(
+                          //   svgSrc: "assets/icons/text.svg",
+                          //   // numOfitem: 3,
+                          //   press: () {
+                          //     _showImageDialogOCR(context);
+                          //   },
+                          // ),
+                          // IconBtnWithCounter(
+                          //   svgSrc: "assets/icons/mic.svg",
+                          //   // numOfitem: 3,
+                          //   press: () {
+                          //     _showImageDialogOCR(context);
+                          //   },
+                          // ),
+                          // RaisedButton(
+                          //   child: new Text(
+                          //     "Scan Barcode",
+                          //   ),
+                          //   onPressed: _scanQR,
+                          // ),
+                          // RaisedButton(
+                          //   child: new Text(
+                          //     "Scan Text",
+                          //   ),
+                          //   onPressed: () {
+                          //     _showImageDialogOCR(context);
+                          //   },
+                          // )
                         ],
                       )),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
@@ -292,9 +364,9 @@ class _BodyState extends State<Body> {
                           // icon: Icon(Icons.person),
                           hintText: 'Enter the Product Description',
                           labelText: 'Product Description *',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          suffixIcon: CustomSurffixIcon(
-                              svgIcon: "assets/icons/Mail.svg"),
+                          // floatingLabelBehavior: FloatingLabelBehavior.always,
+                          // suffixIcon: CustomSurffixIcon(
+                          //     svgIcon: "assets/icons/Mail.svg"),
                         ),
                         // validator: (value) {
                         //   if (value.isEmpty) {
@@ -326,9 +398,11 @@ class _BodyState extends State<Body> {
                         //   }
                         // },
                       ),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
-                          child: Text('Product Type')),
+                      // Container(
+                      //     padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
+                      //     child: Text('Product Type')),
+                      SizedBox(height: SizeConfig.screenHeight * 0.02),
+                      SectionTitleOnly(title: "Product Type", press: () {}),
                       SwitchListTile(
                           title: const Text('Active Product'),
                           value: _product.activeProduct,
@@ -361,9 +435,11 @@ class _BodyState extends State<Body> {
                         },
                       ),
                       Text("Detected Location: $_currentAddress"),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
-                          child: Text('Add Images')),
+                      // Container(
+                      //     padding: EdgeInsets.fromLTRB(0, 50, 0, 20),
+                      //     child: Text('Add Images')),
+                      SizedBox(height: SizeConfig.screenHeight * 0.02),
+                      SectionTitleOnly(title: "Add Images", press: () {}),
                       Container(
                         child: Center(
                           child: Column(
@@ -371,6 +447,8 @@ class _BodyState extends State<Body> {
                             children: <Widget>[
                               _decideImageView(),
                               RaisedButton(
+                                color: kPrimaryColor,
+                                textColor: Colors.white,
                                 onPressed: () {
                                   _showImageDialog(context);
                                 },
@@ -385,6 +463,8 @@ class _BodyState extends State<Body> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 16.0),
                         child: RaisedButton(
+                            color: kPrimaryColor,
+                            textColor: Colors.white,
                             child: new Text(
                               "Create Product",
                             ),

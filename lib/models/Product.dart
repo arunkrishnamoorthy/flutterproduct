@@ -254,7 +254,7 @@ List<Product> demoProducts = [
     price: 75.99,
     description: cheDescription,
     rating: 4.8,
-    category: "Home Fragrance--",
+    category: "Home Fragrance",
     subcategory: "Chesapeake Bay Candle",
     categoryImage: "assets/images/color-chesepeake.svg",
     isFavourite: true,
