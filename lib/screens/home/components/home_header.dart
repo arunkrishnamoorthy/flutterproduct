@@ -146,7 +146,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                     if (_isAvailable && !_isListening)
                       _speechRecognition
                           .listen(locale: "en_US")
-                          .then((result) => print('$result'));
+                          .then((result) => debugPrint('$result'));
                     // _canShowMic = false;
                     // _canShowStop = true;
                     setState(() {
