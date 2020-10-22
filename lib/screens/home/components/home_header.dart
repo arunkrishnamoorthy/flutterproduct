@@ -143,7 +143,6 @@ class _HomeHeaderState extends State<HomeHeader> {
                   svgSrc: "assets/icons/mic.svg",
                   // numOfitem: 3,
                   press: () {
-)
                     if (_isAvailable && !_isListening)
                       _speechRecognition
                           .listen(locale: "en_US")
@@ -166,15 +165,17 @@ class _HomeHeaderState extends State<HomeHeader> {
                   press: () {
                     print('Stop Method Triggered');
                     print('Is Listining is $_isListening');
-                                        debugPrint('Stop Method Triggered');
+                    debugPrint('Stop Method Triggered');
                     debugPrint('Is Listining is $_isListening');
                     if (_isListening) {
-                      _speechRecognition.stop().then((result) => print('$result'));
-                          //   (result) => { 
-                          //     // print('Result is $result');
-                          //     // debugPrint('Result is $result');
-                          //     setState(() => _isListening = result) },
-                          // );
+                      _speechRecognition
+                          .stop()
+                          .then((result) => print('$result'));
+                      //   (result) => {
+                      //     // print('Result is $result');
+                      //     // debugPrint('Result is $result');
+                      //     setState(() => _isListening = result) },
+                      // );
                     }
                     setState(() {
                       _canShowMic = true;
