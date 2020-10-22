@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/no_account_text.dart';
 import 'package:shop_app/components/socal_card.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 import '../../../size_config.dart';
 import 'sign_form.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
@@ -12,7 +13,7 @@ class Body extends StatelessWidget {
   _login(context) async {
     try {
       await _googleSignIn.signIn();
-      Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      Navigator.pushNamed(context, HomeScreen.routeName);
     } catch (err) {
       print(err);
     }
