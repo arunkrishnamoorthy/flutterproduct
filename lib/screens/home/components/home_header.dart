@@ -44,6 +44,7 @@ class _HomeHeaderState extends State<HomeHeader> {
   void initState() {
     super.initState();
     myProductNumber.addListener(_productNumber);
+    initSpeechRecognizer();
   }
 
   void initSpeechRecognizer() {
