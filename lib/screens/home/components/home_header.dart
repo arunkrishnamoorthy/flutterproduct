@@ -169,12 +169,12 @@ class _HomeHeaderState extends State<HomeHeader> {
                                         debugPrint('Stop Method Triggered');
                     debugPrint('Is Listining is $_isListening');
                     if (_isListening) {
-                      _speechRecognition.stop().then(
-                            (result) => { 
-                              print('Result is $result');
-                              debugPrint('Result is $result');
-                              setState(() => _isListening = result) },
-                          );
+                      _speechRecognition.stop().then((result) => print('$result'));
+                          //   (result) => { 
+                          //     // print('Result is $result');
+                          //     // debugPrint('Result is $result');
+                          //     setState(() => _isListening = result) },
+                          // );
                     }
                     setState(() {
                       _canShowMic = true;
