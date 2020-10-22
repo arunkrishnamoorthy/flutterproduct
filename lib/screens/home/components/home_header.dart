@@ -143,10 +143,11 @@ class _HomeHeaderState extends State<HomeHeader> {
                   svgSrc: "assets/icons/mic.svg",
                   // numOfitem: 3,
                   press: () {
+)
                     if (_isAvailable && !_isListening)
                       _speechRecognition
                           .listen(locale: "en_US")
-                          .then((result) => debugPrint('$result'));
+                          .then((result) => print('$result'));
                     // _canShowMic = false;
                     // _canShowStop = true;
                     setState(() {
@@ -163,9 +164,16 @@ class _HomeHeaderState extends State<HomeHeader> {
                   svgSrc: "assets/icons/stop.svg",
                   // numOfitem: 3,
                   press: () {
+                    print('Stop Method Triggered');
+                    print('Is Listining is $_isListening');
+                                        debugPrint('Stop Method Triggered');
+                    debugPrint('Is Listining is $_isListening');
                     if (_isListening) {
                       _speechRecognition.stop().then(
-                            (result) => setState(() => _isListening = result),
+                            (result) => { 
+                              print('Result is $result');
+                              debugPrint('Result is $result');
+                              setState(() => _isListening = result) },
                           );
                     }
                     setState(() {
