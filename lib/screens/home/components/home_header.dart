@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+// import 'package:permission_handler/permission_handler.dart';
 import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:speech_recognition/speech_recognition.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import '../../../size_config.dart';
 import 'icon_btn_with_counter.dart';
 import 'search_field.dart';
@@ -22,6 +23,8 @@ class _HomeHeaderState extends State<HomeHeader> {
   // const HomeHeader({
   //   Key key,
   // }) : super(key: key);
+  // final Permission _permission;
+  // PermissionStatus _permissionStatus = PermissionStatus.undetermined;
   final myProductNumber = TextEditingController();
   String result = '';
   SpeechRecognition _speechRecognition;
@@ -44,7 +47,15 @@ class _HomeHeaderState extends State<HomeHeader> {
   void initState() {
     super.initState();
     myProductNumber.addListener(_productNumber);
-    initSpeechRecognizer();
+    askForPermissions();
+  }
+
+  Future askForPermissions() async {
+    if (await Permission.contacts.request().isGranted) {
+      print('Permission granted');
+      initSpeechRecognizer();
+      // Either the permission was already granted before or the user just granted it.
+    }
   }
 
   void initSpeechRecognizer() {
