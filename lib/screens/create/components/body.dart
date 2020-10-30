@@ -515,6 +515,7 @@ class _BodyState extends State<Body> {
                           // )
                         ],
                       )),
+                      SizedBox(height: SizeConfig.screenHeight * 0.02),
                       Container(
                           width: 200,
                           // height: 10,
