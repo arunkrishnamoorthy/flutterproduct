@@ -347,28 +347,28 @@ class _BodyState extends State<Body> {
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Container(
-                                  width: 200,
-                                  // height: 10,
-                                  child: TextField(
-                                    // initialValue: result,
-                                    // maxLength: 10,
-                                    focusNode: _focus1,
-                                    controller: myProductNumber,
-                                    // style:
-                                    decoration: const InputDecoration(
-                                      // disabledBorder: true,
-                                      // icon: Icon(Icons.send),
-                                      hintText:
-                                          'Enter the Product Number / Scan',
-                                      labelText: 'Number *',
-                                    ),
-                                    // validator: (value) {
-                                    //   if (value.isEmpty) {
-                                    //     return 'Please enter the product number';
-                                    //   }
-                                    // },
-                                  )),
+                              // Container(
+                              //     width: 200,
+                              //     // height: 10,
+                              //     child: TextField(
+                              //       // initialValue: result,
+                              //       // maxLength: 10,
+                              //       focusNode: _focus1,
+                              //       controller: myProductNumber,
+                              //       // style:
+                              //       decoration: const InputDecoration(
+                              //         // disabledBorder: true,
+                              //         // icon: Icon(Icons.send),
+                              //         hintText:
+                              //             'Enter the Product Number / Scan',
+                              //         labelText: 'Number *',
+                              //       ),
+                              //       // validator: (value) {
+                              //       //   if (value.isEmpty) {
+                              //       //     return 'Please enter the product number';
+                              //       //   }
+                              //       // },
+                              //     )),
                               IconBtnWithCounter(
                                   svgSrc: "assets/icons/scan.svg",
                                   press: () {
@@ -461,6 +461,7 @@ class _BodyState extends State<Body> {
                                   : SizedBox(),
                             ],
                           ),
+
                           // Text("Barcode Value: $result"),
                           // TextField(
                           //   // initialValue: result,
@@ -514,6 +515,27 @@ class _BodyState extends State<Body> {
                           // )
                         ],
                       )),
+                      Container(
+                          width: 200,
+                          // height: 10,
+                          child: TextField(
+                            // initialValue: result,
+                            // maxLength: 10,
+                            focusNode: _focus1,
+                            controller: myProductNumber,
+                            // style:
+                            decoration: const InputDecoration(
+                              // disabledBorder: true,
+                              // icon: Icon(Icons.send),
+                              hintText: 'Enter the Product Number / Scan',
+                              labelText: 'Number *',
+                            ),
+                            // validator: (value) {
+                            //   if (value.isEmpty) {
+                            //     return 'Please enter the product number';
+                            //   }
+                            // },
+                          )),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
                         focusNode: _focus2,
