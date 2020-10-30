@@ -13,6 +13,8 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/screens/home/components/icon_btn_with_counter.dart';
 import 'package:shop_app/screens/home/components/section_title_only.dart';
+import 'package:speech_recognition/speech_recognition.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -24,13 +26,27 @@ class _BodyState extends State<Body> {
   final _formKey = GlobalKey<FormState>();
   String result = '';
   File imageFile;
+  File imageFileOcr;
   Position userLocation;
   String _currentAddress;
   final picker = ImagePicker();
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
   final myController = TextEditingController();
   final myProductNumber = TextEditingController();
+  final myProductDesc = TextEditingController();
+  final myProductGroup = TextEditingController();
+  final myProductPrice = TextEditingController();
+  String fieldName = "";
+  FocusNode _focus1 = new FocusNode();
+  FocusNode _focus2 = new FocusNode();
+  FocusNode _focus3 = new FocusNode();
+  FocusNode _focus4 = new FocusNode();
+  SpeechRecognition _speechRecognition;
+  bool _isAvailable = false;
+  bool _isListening = false;
+  bool _canShowMic = true;
+  bool _canShowStop = false;
+  String resultText = "";
 
   @override
   void dispose() {
@@ -45,8 +61,68 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     this._getCurrentLocation();
+    askForPermissions();
+    _focus1.addListener(_onFocusChange1);
+    _focus2.addListener(_onFocusChange2);
+    _focus3.addListener(_onFocusChange3);
+    _focus4.addListener(_onFocusChange4);
     myController.addListener(_printLatestValue);
     myProductNumber.addListener(_productNumber);
+  }
+
+  void _onFocusChange1() {
+    setState(() => fieldName = "A");
+    debugPrint("fieldName A $fieldName");
+    debugPrint("Focus: " + _focus1.hasFocus.toString());
+  }
+
+  void _onFocusChange2() {
+    setState(() => fieldName = "B");
+    debugPrint("fieldName B $fieldName");
+    debugPrint("Focus: " + _focus2.hasFocus.toString());
+  }
+
+  void _onFocusChange3() {
+    setState(() => fieldName = "C");
+    debugPrint("fieldName C $fieldName");
+    debugPrint("Focus: " + _focus3.hasFocus.toString());
+  }
+
+  void _onFocusChange4() {
+    setState(() => fieldName = "D");
+    debugPrint("fieldName D $fieldName");
+    debugPrint("Focus: " + _focus4.hasFocus.toString());
+  }
+
+  Future askForPermissions() async {
+    if (await Permission.microphone.request().isGranted) {
+      print('Permission granted');
+      initSpeechRecognizer();
+      // Either the permission was already granted before or the user just granted it.
+    }
+  }
+
+  void initSpeechRecognizer() {
+    _speechRecognition = SpeechRecognition();
+
+    _speechRecognition.setAvailabilityHandler(
+      (bool result) => setState(() => _isAvailable = result),
+    );
+
+    _speechRecognition.setRecognitionStartedHandler(
+      () => setState(() => _isListening = true),
+    );
+
+    _speechRecognition.setRecognitionResultHandler(
+        (String speech) => {setState(() => resultText = speech)});
+
+    _speechRecognition.setRecognitionCompleteHandler(
+      () => setState(() => _isListening = false),
+    );
+
+    _speechRecognition.activate().then(
+          (result) => setState(() => _isAvailable = result),
+        );
   }
 
   _productNumber() {
@@ -106,7 +182,7 @@ class _BodyState extends State<Body> {
     // final pickedFile = await picker.getImage(source: ImageSource.gallery);
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     this.setState(() {
-      imageFile = image; //File(pickedFile.path);
+      imageFileOcr = image; //File(pickedFile.path);
     });
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(image);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
@@ -136,7 +212,7 @@ class _BodyState extends State<Body> {
     // final pickedFile = await picker.getImage(source: ImageSource.camera);
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      imageFile = image;
+      imageFileOcr = image;
       //File(pickedFile.path);
     });
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(image);
@@ -147,6 +223,15 @@ class _BodyState extends State<Body> {
       for (TextLine line in block.lines) {
         for (TextElement word in line.elements) {
           print(word.text);
+          if (fieldName == "A") {
+            myProductNumber.value = TextEditingValue(text: word.text);
+          } else if (fieldName == "B") {
+            myProductDesc.value = TextEditingValue(text: word.text);
+          } else if (fieldName == "C") {
+            myProductGroup.value = TextEditingValue(text: word.text);
+          } else if (fieldName == "D") {
+            myProductPrice.value = TextEditingValue(text: word.text);
+          }
         }
       }
     }
@@ -268,6 +353,7 @@ class _BodyState extends State<Body> {
                                   child: TextField(
                                     // initialValue: result,
                                     // maxLength: 10,
+                                    focusNode: _focus1,
                                     controller: myProductNumber,
                                     // style:
                                     decoration: const InputDecoration(
@@ -296,13 +382,83 @@ class _BodyState extends State<Body> {
                                   _showImageDialogOCR(context);
                                 },
                               ),
-                              IconBtnWithCounter(
-                                svgSrc: "assets/icons/mic.svg",
-                                // numOfitem: 3,
-                                press: () {
-                                  _showImageDialogOCR(context);
-                                },
-                              ),
+                              _canShowMic
+                                  ? IconBtnWithCounter(
+                                      svgSrc: "assets/icons/mic.svg",
+                                      // numOfitem: 3,
+                                      press: () {
+                                        print('Active Method');
+                                        print('Is Available is $_isAvailable');
+                                        debugPrint('Stop Method Triggered');
+                                        debugPrint(
+                                            'Is Listining is $_isListening');
+                                        debugPrint(
+                                            'Is Available is $_isAvailable');
+                                        if (_isAvailable && !_isListening)
+                                          _speechRecognition
+                                              .listen(locale: "en_US")
+                                              .then((result) =>
+                                                  myProductNumber.value =
+                                                      TextEditingValue(
+                                                          text: result));
+                                        // _canShowMic = false;
+                                        // _canShowStop = true;
+                                        setState(() {
+                                          _canShowMic = false;
+                                        });
+                                        setState(() {
+                                          _canShowStop = true;
+                                        });
+                                      },
+                                    )
+                                  : SizedBox(),
+                              _canShowStop
+                                  ? IconBtnWithCounter(
+                                      svgSrc: "assets/icons/stop.svg",
+                                      // numOfitem: 3,
+                                      press: () {
+                                        print('Stop Method Triggered');
+                                        print('Is Listining is $_isListening');
+                                        debugPrint('Stop Method Triggered');
+                                        debugPrint(
+                                            'Is Listining is $_isListening');
+                                        debugPrint('is result $resultText');
+
+                                        if (fieldName == "A") {
+                                          myProductNumber.value =
+                                              TextEditingValue(
+                                                  text: resultText);
+                                        } else if (fieldName == "B") {
+                                          myProductDesc.value =
+                                              TextEditingValue(
+                                                  text: resultText);
+                                        } else if (fieldName == "C") {
+                                          myProductGroup.value =
+                                              TextEditingValue(
+                                                  text: resultText);
+                                        } else if (fieldName == "D") {
+                                          myProductPrice.value =
+                                              TextEditingValue(
+                                                  text: resultText);
+                                        }
+
+                                        // if (_isListening) {
+                                        // _speechRecognition.stop().then((result) =>
+                                        //     myProductNumber.value = TextEditingValue(text: result));
+
+                                        // _speechRecognition.stop().then((result) => setState(() =>
+                                        //     myProductNumber.value =
+                                        //         TextEditingValue(text: result)));
+
+                                        setState(() {
+                                          _canShowMic = true;
+                                        });
+                                        setState(() {
+                                          _canShowStop = false;
+                                        });
+                                      },
+                                    )
+                                  : SizedBox(),
                             ],
                           ),
                           // Text("Barcode Value: $result"),
@@ -360,6 +516,8 @@ class _BodyState extends State<Body> {
                       )),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
+                        focusNode: _focus2,
+                        controller: myProductDesc,
                         decoration: const InputDecoration(
                           // icon: Icon(Icons.person),
                           hintText: 'Enter the Product Description',
@@ -378,6 +536,8 @@ class _BodyState extends State<Body> {
                       ),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
+                        focusNode: _focus3,
+                        controller: myProductGroup,
                         decoration: InputDecoration(labelText: 'Product Group'),
                         // validator: (value) {
                         //   if (value.isEmpty) {
@@ -389,6 +549,8 @@ class _BodyState extends State<Body> {
                       ),
                       SizedBox(height: SizeConfig.screenHeight * 0.02),
                       TextFormField(
+                        focusNode: _focus4,
+                        controller: myProductPrice,
                         decoration: InputDecoration(labelText: 'Price'),
                         // validator: (value) {
                         //   if (value.isEmpty) {

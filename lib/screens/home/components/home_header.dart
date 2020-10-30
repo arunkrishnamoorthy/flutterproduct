@@ -51,7 +51,7 @@ class _HomeHeaderState extends State<HomeHeader> {
   }
 
   Future askForPermissions() async {
-    if (await Permission.contacts.request().isGranted) {
+    if (await Permission.microphone.request().isGranted) {
       print('Permission granted');
       initSpeechRecognizer();
       // Either the permission was already granted before or the user just granted it.
@@ -70,8 +70,7 @@ class _HomeHeaderState extends State<HomeHeader> {
     );
 
     _speechRecognition.setRecognitionResultHandler(
-      (String speech) => setState(() => resultText = speech),
-    );
+        (String speech) => {setState(() => resultText = speech)});
 
     _speechRecognition.setRecognitionCompleteHandler(
       () => setState(() => _isListening = false),
@@ -155,10 +154,15 @@ class _HomeHeaderState extends State<HomeHeader> {
                   svgSrc: "assets/icons/mic.svg",
                   // numOfitem: 3,
                   press: () {
+                    print('Active Method');
+                    print('Is Available is $_isAvailable');
+                    debugPrint('Stop Method Triggered');
+                    debugPrint('Is Listining is $_isListening');
+                    debugPrint('Is Available is $_isAvailable');
                     if (_isAvailable && !_isListening)
-                      _speechRecognition
-                          .listen(locale: "en_US")
-                          .then((result) => print('$result'));
+                      _speechRecognition.listen(locale: "en_US").then(
+                          (result) => myProductNumber.value =
+                              TextEditingValue(text: result));
                     // _canShowMic = false;
                     // _canShowStop = true;
                     setState(() {
@@ -179,16 +183,16 @@ class _HomeHeaderState extends State<HomeHeader> {
                     print('Is Listining is $_isListening');
                     debugPrint('Stop Method Triggered');
                     debugPrint('Is Listining is $_isListening');
+                    debugPrint('is result $resultText');
+                    myProductNumber.value = TextEditingValue(text: resultText);
                     // if (_isListening) {
-                    _speechRecognition
-                        .stop()
-                        .then((result) => print('$result'));
-                    //   (result) => {
-                    //     // print('Result is $result');
-                    //     // debugPrint('Result is $result');
-                    //     setState(() => _isListening = result) },
-                    // );
-                    // }
+                    // _speechRecognition.stop().then((result) =>
+                    //     myProductNumber.value = TextEditingValue(text: result));
+
+                    // _speechRecognition.stop().then((result) => setState(() =>
+                    //     myProductNumber.value =
+                    //         TextEditingValue(text: result)));
+
                     setState(() {
                       _canShowMic = true;
                     });
